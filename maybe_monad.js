@@ -1,14 +1,12 @@
-// DB is from http://d.hatena.ne.jp/kazu-yamamoto/20100816/1281928389
+// Maybe monad.
 
-function Just(a) { this.value = a; }
-Just.prototype.bind = function(f) { return f(this.value); }
-Just.prototype.isJust = function(f) { return f(this.value); }
-
-function None() {}
-None.prototype.bind = function(f) { return (new None()); }
-None.prototype.isJust = function() { return (new None()); }
-
-var DB = { "Bob": "Dave", "Dave": "Steve", "Steve": "Tony" };
-function lookup(db) {
-  return function(x) { return db[x] ? new Just(db[x]) : new None(); }
-}
+var Maybe = {
+  Just: function(a) {
+    this.value = a;
+    this.bind = function(f) { return f(this.value); };
+  },
+  None: function() {
+    this.bind = function() {};
+  },
+  return: function(a) { return new Maybe.Just(a); }
+};
