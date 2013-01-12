@@ -1,31 +1,21 @@
-var DB = {
-  "Bob": "Dave",
-  "Dave": "Steve",
-  "Steve": "Tony"
-};
+var tony = { name: "Tony", parent: undefined };
+var steve = { name: "Steve", parent: tony };
+var dave = { name: "Dave", parent: steve};
+var bob = { name: "Bob", parent: dave };
 
-function lookup(db, x) {
-  return db[x];
-}
-
-function findGrandGrandFather(db, x) {
-  var father = lookup(db, x);
-  if (father) {
-    var grandFather = lookup(db, father);
-    if (grandFather) {
-      return lookup(db, grandFather);
-    } else {
-      return undefined;
+function findGrandGrandFather(p) {
+  if (p.parent) {
+    if (p.parent.parent) {
+      return p.parent.parent.parent;
     }
-  } else {
-    return undefined;
   }
+  return undefined;
 }
 
 test("Bob's grand grand father should be Tony", function() {
-  equal(findGrandGrandFather(DB, "Bob"), "Tony", "is Tony");
+  equal(findGrandGrandFather(bob).name, "Tony", "is Tony");
 });
 
 test("Tony's grand grand father should be undefined", function() {
-  equal(findGrandGrandFather(DB, "Tony"), undefined, "is undefined");
+  equal(findGrandGrandFather(tony), undefined, "is undefined");
 });
