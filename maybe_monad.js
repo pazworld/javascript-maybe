@@ -6,7 +6,7 @@ var Maybe = {
     this.bind = function(f) { return f(this.value); };
   },
   None: function() {
-    this.bind = function() {};
+    this.bind = function() { return this; };
   },
   return: function(a) { return new Maybe.Just(a); }
 };
